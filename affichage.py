@@ -67,3 +67,37 @@ def trace_en_texte(chemin, accepte):
 def afficher_trace(chemin, accepte):
     """Affiche la trace du calcul (tâche 7.4)."""
     print(trace_en_texte(chemin, accepte))
+def automate_en_dot(automate):
+    """Retourne la description DOT de l'automate, sous forme de texte (tâche 6.2).
+
+    États finaux en double cercle, flèche d'entrée sur l'état initial,
+    transitions de mêmes extrémités fusionnées en une seule flèche.
+    """
+    lignes = [
+        "digraph automate {",
+        "    rankdir=LR;",
+        "    node [shape=circle];",
+    ]
+    if automate.initial is not None:
+        lignes.append("    debut [shape=point];")
+    for etat in sorted(automate.finaux):
+        lignes.append(f"    q{etat} [shape=doublecircle];")
+    if automate.initial is not None:
+        lignes.append(f"    debut -> q{automate.initial};")
+
+    ordre = list(automate.alphabet) + [EPSILON]
+    groupes = {}   # (source, cible) -> symboles des transitions entre ces deux états
+    for source, symbole, cible in automate.liste_transitions():
+        groupes.setdefault((source, cible), []).append(symbole)
+    for source, cible in sorted(groupes):
+        symboles = sorted(groupes[(source, cible)], key=ordre.index)
+        lignes.append(f'    q{source} -> q{cible} [label="{",".join(symboles)}"];')
+
+    lignes.append("}")
+    return "\n".join(lignes)
+
+
+def ecrire_dot(automate, chemin):
+    """Écrit la description DOT de l'automate dans un fichier UTF-8 (tâche 6.2)."""
+    with open(chemin, "w", encoding="utf-8") as fichier:
+        fichier.write(automate_en_dot(automate) + "\n")
