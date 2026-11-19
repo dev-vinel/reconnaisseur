@@ -8,8 +8,14 @@ import pytest
 DOSSIER = Path(__file__).parent
 
 MODULES = [
-    "syntaxe", "saisie", "validation", "preparation", "automate",
-    "determinisation", "affichage", "reconnaissance", "main",
+    "saisie",
+    "validation",
+    "postfixe",
+    "automate",
+    # ... tes autres modules
+    "theme",
+    "dessin",
+    "interface",
 ]
 
 

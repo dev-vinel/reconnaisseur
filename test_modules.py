@@ -3,8 +3,14 @@ import importlib
 import pytest
 
 MODULES = [
-    "syntaxe", "saisie", "validation", "preparation",
-    "automate", "determinisation", "affichage", "reconnaissance", "main",
+    "saisie",
+    "validation",
+    "postfixe",
+    "automate",
+    # ... tes autres modules
+    "theme",
+    "dessin",
+    "interface",
 ]
 
 
